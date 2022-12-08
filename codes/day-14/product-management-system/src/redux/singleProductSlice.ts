@@ -105,6 +105,9 @@ const singleProductSlice = createSlice({
             state.errorMessage = payload
             state.product = null
         }
+    },
+    extraReducers: (builder) => {
+
     }
 })
 

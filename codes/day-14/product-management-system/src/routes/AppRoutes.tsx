@@ -1,14 +1,18 @@
-import React, { FC } from 'react'
-import Home from '../components/common/home/Home'
-import MainLayout from '../components/common/main-layout/MainLayout'
+import React, { FC, lazy, Suspense } from 'react'
 import { Navigate, useRoutes, RouteObject } from "react-router-dom";
-import PageNotFound from '../components/common/page-not-found/PageNotFound';
-import ProductsLayout from '../components/products/products-layout/ProductsLayout';
-import ProductList from '../components/products/product-list/ProductList';
-import AddProduct from '../components/products/add-product/AddProduct';
-import ProductDetail from '../components/products/product-detail/ProductDetail';
-import EditProduct from '../components/products/edit-product/EditProduct';
 
+const Home = lazy(() => import('../components/common/home/Home'))
+const MainLayout = lazy(() => import('../components/common/main-layout/MainLayout'))
+const PageNotFound = lazy(() => import('../components/common/page-not-found/PageNotFound'));
+const ProductsLayout = lazy(() => import('../components/products/products-layout/ProductsLayout'));
+const ProductList = lazy(() => import('../components/products/product-list/ProductList'));
+const AddProduct = lazy(() => import('../components/products/add-product/AddProduct'));
+const ProductDetail = lazy(() => import('../components/products/product-detail/ProductDetail'));
+const EditProduct = lazy(() => import('../components/products/edit-product/EditProduct'));
+
+const FallBackDesign: FC = (): JSX.Element => {
+    return <span>Loading component...please wait</span>
+}
 const AppRoutes: FC = (): JSX.Element => {
     //<Routes>
     //  <Route path='/' element={<MainLayout />}>
@@ -39,7 +43,13 @@ const AppRoutes: FC = (): JSX.Element => {
         ]
     }
     const router = useRoutes([mainRoutes, productRoutes])
-    return <>{router}</>
+    return (
+        // <ErrorBoundary>
+        <Suspense fallback={<FallBackDesign />}>
+            {router}
+        </Suspense >
+        // </ErrorBoundary>
+    )
 }
 export type ViewRouteParamsType = {
     id: string

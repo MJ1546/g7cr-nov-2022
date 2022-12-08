@@ -10,7 +10,7 @@ export const getAllProducts = () => {
     return axiosInstance.get<ApiResponse<Product[]>>('')
 
 }
-export const getProductById = (id: number, token: CancelToken) => {
+export const getProductById = (id: number, token: CancelToken | undefined) => {
     const obs = defer(
         () => from(
             axiosInstance.get<ApiResponse<Product>>(`/${id}`, { cancelToken: token })
