@@ -10,9 +10,14 @@ import ProductDetail from '../components/products/product-detail/ProductDetail';
 import EditProduct from '../components/products/edit-product/EditProduct';
 
 const AppRoutes: FC = (): JSX.Element => {
-    // <Route path='/' element={<MainLayout />}>
+    //<Routes>
+    //  <Route path='/' element={<MainLayout />}>
     //     <Route path='home' element={<Home />} />
-    // </Route>
+    //  </Route>
+    //  <Route path='products' element={<ProductsLayout/>}>
+    //      <Route path='' element={<PL />} />
+    //</Route>
+    //<Routes>
     const mainRoutes: RouteObject = {
         path: '/',
         element: <MainLayout />,
@@ -36,5 +41,7 @@ const AppRoutes: FC = (): JSX.Element => {
     const router = useRoutes([mainRoutes, productRoutes])
     return <>{router}</>
 }
-
+export type ViewRouteParamsType = {
+    id: string
+}
 export default AppRoutes

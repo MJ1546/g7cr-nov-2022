@@ -8,6 +8,7 @@ import { ApiResponse } from "../../../models/api-response.model";
 // import ProductCard from './product-card/ProductCard'
 import { Product } from '../../../models/product.model';
 import { AppDispatch, RootState } from '../../../redux/store';
+import { Link } from 'react-router-dom';
 
 const ProductList = () => {
     const productState = useSelector((states: RootState) => states.product)
@@ -57,10 +58,19 @@ const ProductList = () => {
             <ul>
                 {
                     products.map(
-                        (p: Product) => <li>{p.productName}</li>
+                        (p: Product) => (
+                            <Link
+                                key={p.productId}
+                                to={`/products/view/${p.productId}`}
+                            >
+                                <li>
+                                    {p.productName}
+                                </li>
+                            </Link>
+                        )
                     )
                 }
-            </ul>
+            </ul >
         )
     }
     return design
