@@ -1,3 +1,13 @@
 https://medium.com/@happymishra66/execution-context-in-javascript-319dd72e8e2c
 
 https://zoranstankovic.com/execution-context-in-javascript-part-1./
+
+access management of mongodb
+https://www.mongodb.com/docs/manual/tutorial/enable-authentication/
+https://www.mongodb.com/docs/manual/tutorial/manage-users-and-roles/
+
+Backup and restoration
+https://www.bmc.com/blogs/mongodb-mongorestore/
+https://www.w3resource.com/mongodb/mongodb-backup-restore.php
+https://www.geeksforgeeks.org/mongodb-backup-and-restoration/#:~:text=In%20MongoDB%2C%20mongorestore%20utility%20is,any%20collection%20inside%20that%20database.
+https://www.mongodb.com/basics/backup-and-restore
