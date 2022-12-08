@@ -26,4 +26,4 @@ export const productsSlice = createSlice({
 
 export const { initiate: initiateActionCreator, success: successActionCreator, failure: failureActionCreator } = productsSlice.actions
 
-export const productsReducer = productsSlice.reducer
+export const allProductsReducer = productsSlice.reducer

@@ -6,6 +6,7 @@ const initialCountState = {
 const initialNameState = {
     name: ''
 }
+
 const actionTypes = {
     INCREASE: 'INCREASE',
     DECREASE: 'DECREASE',
@@ -31,7 +32,7 @@ const nameUpdateActionCreator = (data) => {
         value: data
     }
 }
-const counterReducer = (state = initialCountState, action) => {
+const counterIncreaseReducer = (state = initialCountState, action) => {
     let newState;
     switch (action.type) {
         case actionTypes.INCREASE:
@@ -40,22 +41,24 @@ const counterReducer = (state = initialCountState, action) => {
                 count: state.count + action.value
             }
             break;
+    }
+    return newState
+}
 
+const counterDecreaseReducer = (state = initialCountState, action) => {
+    let newState;
+    switch (action.type) {
         case actionTypes.DECREASE:
             newState = {
                 ...state,
                 count: state.count - action.value
             }
             break;
-
-        default:
-            newState = {
-                ...state
-            }
-            break;
     }
     return newState
 }
+
+
 
 const nameReducer = (state = initialNameState, action) => {
     let newState;
@@ -77,7 +80,8 @@ const nameReducer = (state = initialNameState, action) => {
 }
 
 const rootReducer = combineReducers({
-    count: counterReducer,
+    countIncrementor: counterIncreaseReducer,
+    countDecrementor: counterDecreaseReducer,
     newName: nameReducer
 })
 const store = createStore(rootReducer)

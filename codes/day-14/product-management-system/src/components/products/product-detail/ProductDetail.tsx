@@ -1,66 +1,43 @@
-import axios, { AxiosResponse } from 'axios';
-import React, { ReactElement, useEffect, useState } from 'react'
-import { useLocation, useParams, useNavigate, NavigateFunction } from "react-router-dom";
-import { ApiResponse } from '../../../models/api-response.model';
-import { Product } from '../../../models/product.model';
+import axios from 'axios';
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams, useNavigate, NavigateFunction } from "react-router-dom";
+import { failureCreator, initiateCreator, successCreator } from '../../../redux/singleProductSlice';
+import { RootState } from '../../../redux/store';
 import { ViewRouteParamsType } from '../../../routes/AppRoutes';
 import { getProductById } from "../../../services/productService";
-// type RouteParamsType = {
-//     [key: string]: string
-// }
 
 const ProductDetail = () => {
 
     const pid = Number((useParams() as ViewRouteParamsType).id)
     const navigate: NavigateFunction = useNavigate()
 
-    const [loadingState, setLoadingState] = useState<boolean>(true)
-    const [errorState, setErrorState] = useState<string>('')
-    const [productState, setProductState] = useState<Product | null>(null)
+    const subscribedState = useSelector(
+        (stateMap: RootState) => stateMap.singleProduct
+    )
+    const dispatch = useDispatch()
 
-    /*
-    const fetchProduct = (status: boolean) => {
-
-        getProductById(pid)
-            .then(
-                (resp: AxiosResponse<ApiResponse<Product>>) => {
-                    if (status) {
-                        const actualData = resp.data
-                        setProductState(actualData.data)
-                        setLoadingState(false)
-                        setErrorState('')
-                    }
-                },
-                (err) => {
-                    setProductState(null)
-                    setLoadingState(false)
-                    setErrorState(err.message)
-                }
-            )
-    }
-    */
+    const { loading, errorMessage, product } = subscribedState
     useEffect(
         () => {
-            // let isCleanUpDone = true
-            // fetchProduct(isCleanUpDone)
             const cancelTokenStatic = axios.CancelToken
             const sourceOfToken = cancelTokenStatic.source()
             const cancellationToken = sourceOfToken.token
 
+            dispatch(initiateCreator(null))
             const obs = getProductById(pid, cancellationToken)
             const subscription = obs
                 .subscribe({
                     next: (resp) => {
-                        setProductState(resp.data.data)
-                        setLoadingState(false)
-                        setErrorState('')
+                        if (resp.data.data !== null)
+                            dispatch(successCreator(resp.data.data))
+                        else {
+                            dispatch(failureCreator(resp.data.message))
+                        }
                     },
                     error: (err) => {
-                        setProductState(null)
-                        setLoadingState(false)
-                        setErrorState(err.message)
-                    },
-                    // complete: () => { }
+                        dispatch(failureCreator(err.message))
+                    }
                 })
 
             return () => {
@@ -68,24 +45,21 @@ const ProductDetail = () => {
                 sourceOfToken.cancel('token cancelled')
                 subscription.unsubscribe()
             }
-            // return () => {
-            //     isCleanUpDone = false
-            // }
         },
         [pid]
     )
 
     let design: JSX.Element | null = null
-    if (loadingState) {
+    if (loading) {
         design = <div>Loading...</div>
-    } else if (errorState !== '') {
-        design = <div>{errorState}</div>
-    } else if (productState === null) {
+    } else if (errorMessage !== '') {
+        design = <div>{errorMessage}</div>
+    } else if (product === null) {
         design = <span>No record</span>
     } else {
         design = (
             <>
-                Detail of# {productState.productName} with price:{productState.price}
+                Detail of# {product.productName} with price:{product.price}
                 <br />
                 <button type='button' className='btn btn-primary'
                     onClick={

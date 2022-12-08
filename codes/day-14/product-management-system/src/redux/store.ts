@@ -1,15 +1,18 @@
-import { configureStore, Store } from "@reduxjs/toolkit"
+import { configureStore } from "@reduxjs/toolkit"
 import { createLogger } from "redux-logger"
-import { productsReducer } from "./productsSlice"
+import { allProductsReducer } from "./productsSlice"
+import { singleProductReducer } from "./singleProductSlice"
 
 const loggerMiddleware = createLogger()
 
 const store = configureStore({
     reducer: {
-        product: productsReducer,
+        allProducts: allProductsReducer,
+        singleProduct: singleProductReducer
     },
     middleware: [loggerMiddleware]
 })
+
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch
 export default store

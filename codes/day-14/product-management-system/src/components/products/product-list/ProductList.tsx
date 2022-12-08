@@ -11,7 +11,7 @@ import { AppDispatch, RootState } from '../../../redux/store';
 import { Link } from 'react-router-dom';
 
 const ProductList = () => {
-    const productState = useSelector((states: RootState) => states.product)
+    const productState = useSelector((states: RootState) => states.allProducts)
     const dispatchFnRef = useDispatch<AppDispatch>()
 
     const { loading, errorMessage, products } = productState
