@@ -50,13 +50,13 @@
         "starRating": 4
     },
     {
+        "productId": 6,
         "productName": "Test",
         "productCode": "GDN-0012",
         "releaseDate": "March 19, 2016",
         "description": "Test",
         "price": 500,
         "imageUrl": "http://openclipart.org/image/300px/svg_to_png/26215/Anonymous_Leaf_Rake.png",
-        "starRating": 5,
-        "productId": 6
+        "starRating": 5
     }
 ]

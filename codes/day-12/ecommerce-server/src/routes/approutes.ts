@@ -3,24 +3,34 @@ import diTokens from "../constants/di-tokens";
 import { ECommerceControllerContract } from "../controller/ecommerce-controller.contract";
 import { injectable, inject } from "inversify";
 import 'reflect-metadata'
+import { AuthControllerContract } from "../controller/auth-controller.contract";
 
-const BASE_URL = process.env.BASE_URL || '/api/products'
+const PRODUCTS_BASE_URL = process.env.PRODUCTS_BASE_URL || '/api/products'
+const AUTH_BASE_URL = process.env.AUTH_BASE_URL || '/api/auth'
 
 @injectable()
 export class AppRoutes {
 
-    constructor(@inject(diTokens.PRODUCTS_CONTROLLER_TOKEN) private productsController: ECommerceControllerContract) {
+    constructor(
+        @inject(diTokens.PRODUCTS_CONTROLLER_TOKEN)
+        private productsController: ECommerceControllerContract,
+        @inject(diTokens.AUTH_CONTROLLER_TOKEN)
+        private authController: AuthControllerContract
+    ) {
 
     }
 
     registerRoutes(): Router {
         const routerMiddleware = Router()
 
-        routerMiddleware.get(BASE_URL, this.productsController.getAllAction)
-        routerMiddleware.get(`${BASE_URL}/:id`, this.productsController.getAction)
-        routerMiddleware.post(BASE_URL, this.productsController.postAction)
-        routerMiddleware.put(`${BASE_URL}/:id`, this.productsController.putAction)
-        routerMiddleware.delete(`${BASE_URL}/:id`, this.productsController.deleteAction)
+        routerMiddleware.post(`${AUTH_BASE_URL}/register`, this.authController.registerAction)
+        routerMiddleware.post(`${AUTH_BASE_URL}/login`, this.authController.loginAction)
+
+        routerMiddleware.get(PRODUCTS_BASE_URL, this.productsController.getAllAction)
+        routerMiddleware.get(`${PRODUCTS_BASE_URL}/:id`, this.productsController.getAction)
+        routerMiddleware.post(PRODUCTS_BASE_URL, this.productsController.postAction)
+        routerMiddleware.put(`${PRODUCTS_BASE_URL}/:id`, this.productsController.putAction)
+        routerMiddleware.delete(`${PRODUCTS_BASE_URL}/:id`, this.productsController.deleteAction)
 
         return routerMiddleware
     }
