@@ -44,8 +44,8 @@ POST http://localhost:4000/api/auth/register
 Content-Type: application/json
 
 {   
-    "username": "joydip@gmail.com",
-    "password": "Joydip@123"
+    "username": "abcd@gmail.com",
+    "password": "Abcd@123"
 }
 
 ###

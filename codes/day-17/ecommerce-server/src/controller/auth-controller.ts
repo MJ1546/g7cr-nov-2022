@@ -8,6 +8,7 @@ import diTokens from "../constants/di-tokens";
 import { UsersBoContract } from "../bo/users-bo.contract";
 import { User } from "../models/user.model";
 import generateResponse from "../utils/response-generator";
+import appLogger from "../utils/logger";
 
 @injectable()
 export class AuthController implements AuthControllerContract {
@@ -24,6 +25,7 @@ export class AuthController implements AuthControllerContract {
             res.send(response)
         } catch (error: any) {
             const errResponse = generateResponse<null>(error.message, 500)
+            appLogger.error(error.message)
             res.send(errResponse)
         }
     }

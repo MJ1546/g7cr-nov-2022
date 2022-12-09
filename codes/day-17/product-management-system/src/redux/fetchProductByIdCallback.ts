@@ -8,7 +8,9 @@ import { failureCreator, initiateCreator, successCreator } from "./singleProduct
 const callbackCreator = (pid: number, cancellationToken: CancelToken, subscription?: Subscription) => {
 
     const fetchProductByIdCallback = (dispatch: Dispatch<AnyAction>): Subscription => {
+
         dispatch(initiateCreator(null))
+
         const obs = getProductById(pid, cancellationToken)
         subscription = obs
             .subscribe({

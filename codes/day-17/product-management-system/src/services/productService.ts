@@ -7,24 +7,24 @@ import { CancelToken } from "axios";
 //import { Observable } from "@reduxjs/toolkit";
 
 export const getAllProducts = () => {
-    return axiosInstance.get<ApiResponse<Product[]>>('')
+    return axiosInstance.get<ApiResponse<Product[]>>('products')
 
 }
 export const getProductById = (id: number, token: CancelToken | undefined) => {
     const obs = defer(
         () => from(
-            axiosInstance.get<ApiResponse<Product>>(`/${id}`, { cancelToken: token })
+            axiosInstance.get<ApiResponse<Product>>(`products/${id}`, { cancelToken: token })
         )
     )
     return obs
     //return axiosInstance.get<ApiResponse<Product>>(`/${id}`)
 }
 export const addProduct = (product: Product) => {
-    return axiosInstance.post<ApiResponse<Product>>('', product)
+    return axiosInstance.post<ApiResponse<Product>>('products', product)
 }
 export const updateProduct = (product: Product, id: number) => {
-    return axiosInstance.put<ApiResponse<Product>>(`/${id}`, product)
+    return axiosInstance.put<ApiResponse<Product>>(`products/${id}`, product)
 }
 export const deleteProduct = (id: number) => {
-    return axiosInstance.delete<ApiResponse<Product>>(`/${id}`)
+    return axiosInstance.delete<ApiResponse<Product>>(`products/${id}`)
 }

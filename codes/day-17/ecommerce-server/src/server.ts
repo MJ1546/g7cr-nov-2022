@@ -7,6 +7,7 @@ import diTokens from "./constants/di-tokens";
 import { ECommerceControllerContract } from "./controller/ecommerce-controller.contract";
 import connectToDb from "./db/db";
 import { AuthControllerContract } from "./controller/auth-controller.contract";
+import appLogger from "./utils/logger";
 
 config()
 
@@ -35,5 +36,11 @@ app.listen(
         connectToDb(MONGODB_CONSTR, MONGODB_DATABASE)
         console.log(`ecommerce server is running at http://localhost:${PORT}${PRODUCTS_BASE_URL}`)
         console.log(`ecommerce server is running at http://localhost:${PORT}${AUTH_BASE_URL}`)
+        appLogger.info(`ecommerce server is running at http://localhost:${PORT}${PRODUCTS_BASE_URL}`)
     }
 )
+
+// const loggerMiddleware = (req, res, next) => {
+//     appLogger.info()
+//     next()
+// }

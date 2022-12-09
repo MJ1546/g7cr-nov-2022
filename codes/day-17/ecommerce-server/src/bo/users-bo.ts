@@ -9,13 +9,22 @@ import { createToken } from "../middlewares/jwt-middleware";
 export class UsersBo implements UsersBoContract {
     async create(user: User): Promise<User> {
         try {
-            const found = await UserModel.findOne({ username: user.username, password: user.password })
-            if (found) {
-                throw new Error('user already exists')
-            } else {
-                await UserModel.create({ ...user })
-                return user
-            }
+            const session = await UserModel.startSession()
+            const data = await session.withTransaction(
+                async () => {
+                    const found = await UserModel.findOne({ username: user.username, password: user.password })
+                    if (found) {
+                        session.abortTransaction()
+                        throw new Error('user already exists')
+                    } else {
+                        await UserModel.create({ ...user })
+                        session.commitTransaction()
+                        return user
+                    }
+                }
+            )
+            await session.endSession()
+            return data as User
         } catch (error) {
             throw error
         }

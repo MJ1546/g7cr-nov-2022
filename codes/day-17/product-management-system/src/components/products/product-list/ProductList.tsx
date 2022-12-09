@@ -1,21 +1,24 @@
 import React, { ReactElement, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { failureActionCreator, initiateActionCreator, successActionCreator } from '../../../redux/productsSlice'
-import { getAllProducts } from '../../../services/productService'
-import { AxiosResponse } from "axios";
-import { ApiResponse } from "../../../models/api-response.model";
+// import { failureActionCreator, initiateActionCreator, successActionCreator } from '../../../redux/productsSlice'
+// import { getAllProducts } from '../../../services/productService'
+// import { AxiosResponse } from "axios";
+// import { ApiResponse } from "../../../models/api-response.model";
 // import FilterProduct from './filter-product/FilterProduct'
 // import ProductCard from './product-card/ProductCard'
 import { Product } from '../../../models/product.model';
 import { AppDispatch, RootState } from '../../../redux/store';
 import { Link } from 'react-router-dom';
+import fetchProductsCallbackCreator from '../../../redux/fetchProductsCallback';
 
 const ProductList = () => {
     const productState = useSelector((states: RootState) => states.allProducts)
-    const dispatchFnRef = useDispatch<AppDispatch>()
+    // const dispatchFnRef = useDispatch<AppDispatch>()
+    const dispatchFnRef = useDispatch<any>()
 
     const { loading, errorMessage, products } = productState
 
+    /*
     const fetchData = () => {
         const initiateAction = initiateActionCreator()
         dispatchFnRef(initiateAction)
@@ -38,10 +41,12 @@ const ProductList = () => {
                 }
             )
     }
-
+    */
     useEffect(
         () => {
-            fetchData()
+            //fetchData()
+            const fetchProductCallback = fetchProductsCallbackCreator()
+            dispatchFnRef(fetchProductCallback)
         },
         []
     )
