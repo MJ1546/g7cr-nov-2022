@@ -1,0 +1,13 @@
+1. keep a file, say, sw.js or serviceWorker.js in "public" folder
+2. write the code about caching
+3. create a file swDv.js in the src directory, with a function that registers the service worker in browser, when the application is running in production mode
+4. fetch data using fetch api or asiox from jsontypicode.com/users link
+5. keep the data in redux store
+6. now run the application in production mode
+    a. first build the application using "npm run build" command and 
+    b. then host it using any server (such as serve or http-server)
+7. you will notice the application is registering a service worker in the browser (check under Application tab)
+8. initially the application displays the user data on Users.js component
+9. Now, check the network tab in browser dev tool, set the network from "Throttling" to "Offline" mode and reload the application
+10. you will notice that the Users component is still shoing the data (the data is being served from the cache). You will find the cached data under Application tab>Cache storage
+11. change the code in sw.js file in order to cache whatever you want
